@@ -59,7 +59,7 @@ return new class extends Migration
     {
         Schema::dropIfExists('employees');
         Schema::dropIfExists('departements');
-        Schema::dropIfExists('posisitions');
+        Schema::dropIfExists('positions');
         Schema::dropIfExists('attendence');
     }
 };
