@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+@extends('master')
+@section('title', 'Daftar Pegawai')
+@section('content')
     <div class="container mt-5">
         <h1 class="mb-4">Daftar Pegawai</h1>
         <table border="1" cellpadding="5" cellspacing="0">
@@ -39,8 +33,7 @@
                                 style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit"
-                                    onclick="return confirm('Yakin ingin menghapus?')">Delete</button>
+                                <button type="submit" onclick="return confirm('Yakin ingin menghapus?')">Delete</button>
                             </form>
                         </td>
                     </tr>
@@ -48,5 +41,4 @@
             </tbody>
         </table>
     </div>
-</body>
-</html>
+@endsection
