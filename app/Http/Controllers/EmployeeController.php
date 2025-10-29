@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Department;
+use App\Models\Position;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -12,9 +14,11 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::latest()->paginate(5);
+    $employees = Employee::with(['department', 'position'])->latest()->paginate(5);
+    $departments = Department::all();
+    $positions = Position::all();
 
-        return view('employees.index', compact('employees'));
+    return view('employees.index', compact('employees', 'departments', 'positions'));
     }
 
     /**
@@ -30,17 +34,24 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama_lengkap'  => 'required|string|max:255',
             'email'         => 'required|email|max:255',
             'nomor_telepon' => 'required|string|max:20',
             'tanggal_lahir' => 'required|date',
-            'alamat'        => 'required|string|max:255',
             'tanggal_masuk' => 'required|date',
+            'alamat'        => 'required|string|max:255',
+            'department_id' => 'required|exists:departments,id',
+            'position_id'   => 'required|exists:positions,id',
             'status'        => 'required|string|max:50',
         ]);
-        Employee::create($request->all());
-        return redirect()->route('employees.index');
+
+        $employee = Employee::create($validated);
+        if ($employee) {
+            return redirect()->route('employees.index')->with('success', 'Data berhasil disimpan!');
+        } else {
+            return back()->with('error', 'Gagal menyimpan data, coba lagi.');
+        }
     }
 
     /**
@@ -48,7 +59,7 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
-        $employee = Employee::find($id);
+        $employee = Employee::with(['department', 'position'])->findOrFail($id);
         return view('employees.show', compact('employee'));
     }
 
@@ -57,7 +68,7 @@ class EmployeeController extends Controller
      */
     public function edit(string $id)
     {
-        $employee = Employee::find($id);
+        $employee = Employee::with(['department', 'position'])->findOrFail($id);
         return view('employees.edit', compact('employee'));
     }
 
@@ -67,25 +78,33 @@ class EmployeeController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'nama_lengkap' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'nama_lengkap'  => 'required|string|max:255',
+            'email'         => 'required|email|max:255',
             'nomor_telepon' => 'required|string|max:20',
             'tanggal_lahir' => 'required|date',
-            'alamat' => 'required|string|max:255',
             'tanggal_masuk' => 'required|date',
-            'status' => 'required|string|max:50',
+            'alamat'        => 'required|string|max:255',
+            'department_id' => 'required|exists:departments,id',
+            'position_id'   => 'required|exists:positions,id',
+            'status'       => 'required|string|max:50',
         ]);
-        $employee = Employee::findOrFail($id);
-        $employee->update($request->only([
-            'nama_lengkap',
-            'email',
-            'nomor_telepon',
-            'tanggal_lahir',
-            'alamat',
-            'tanggal_masuk',
-            'status',
-        ]));
-        return redirect()->route('employees.index');
+    $employee = Employee::with(['department', 'position'])->findOrFail($id);
+        if ($employee) {
+            $employee->update($request->only([
+                'nama_lengkap',
+                'email',
+                'nomor_telepon',
+                'tanggal_lahir',
+                'tanggal_masuk',
+                'alamat',
+                'department_id',
+                'position_id',
+                'status',
+            ]));
+            return redirect()->route('employees.index')->with('success', 'Data berhasil diperbarui!');
+        } else {
+            return back()->with('error', 'Gagal memperbarui data, coba lagi.');
+        }
     }
 
     /**
@@ -93,8 +112,13 @@ class EmployeeController extends Controller
      */
     public function destroy(string $id)
     {
-        $employee = Employee::find($id);
-        $employee->delete();
-        return redirect()->route('employees.index');
+        $employee = Employee::with('department', 'position')->find($id);
+        if ($employee) {
+            $employee->delete();
+            return redirect()->route
+            ('employees.index')->with('success', 'Data berhasil dihapus!');
+        } else {
+            return back()->with('error', 'Gagal menghapus data, coba lagi.');
+        }
     }
 }

@@ -1,20 +1,14 @@
 @extends('master')
-@section('title', 'Daftar Pegawai')
-@section('Page-title', 'Daftar Pegawai')
+@section('title', 'Daftar Departement')
+@section('Page-title', 'Daftar Departement')
 @section('content')
-    @include('employees.create')
+    @include('departments.create')
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        Nama Lengkap
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Departemen
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Jabatan
+                        Nama Departement
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Aksi
@@ -22,17 +16,15 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($employees as $employee)
+                @foreach ($departments as $department)
                     <tr
                         class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $employee->nama_lengkap }}</td>
-                            <td class="px-6 py-4">{{ $employee->department->nama_department ?? '' }}</td>
-                            <td class="px-6 py-4">{{ $employee->position->nama_jabatan ?? '' }}</td>
+                            {{ $department->nama_department }}</td>
                         <td class="px-6 py-4">
-                            @include('employees.show', ['employee' => $employee]) |
-                            @include('employees.edit', ['employee' => $employee]) |
-                            <form action="{{ route('employees.destroy', $employee->id) }}" method="POST"
+                            @include('departments.show', ['department' => $department]) |
+                            @include('departments.edit', ['department' => $department]) |
+                            <form action="{{ route('departments.destroy', $department->id) }}" method="POST"
                                 style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -44,7 +36,4 @@
             </tbody>
         </table>
     </div>
-        <div class="mt-4">
-            {{ $employees->links() }}
-        </div>
 @endsection

@@ -4,27 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>@yield('title', 'App Pegawai')</title>
+    @vite('resources/css/app.css')
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </head>
 
 <body>
     <header>
-        <h1>@yield('page-title', 'App Pegawai')</h1>
-        <nav>
-            <ul>
-                <li><a href="{{ url('/employee') }}">Employee</a></li>
-                <li><a href="{{ url('/department') }}">Department</a></li>
-                <li><a href="{{ url('/attendance') }}">Attendance</a></li>
-                <li><a href="{{ url('/report') }}">Report</a></li>
-                <li><a href="{{ url('/settings') }}">Settings</a></li>
-            </ul>
-        </nav>
+        <x-navbar></x-navbar>
     </header>
     <main>
-        @yield('content')
+        <x-content></x-content>
     </main>
-    <footer>
-        <p>&copy; {{ date('Y') }} App Pegawai</p>
-    </footer>
 </body>
 
 </html>

@@ -1,0 +1,8 @@
+<div class="p-4 sm:ml-64">
+    <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-gray-900">
+        @yield('Page-title', 'App Pegawai')</h1>
+        @yield('content')
+        <x-notif.alert />
+    </div>
+</div>
