@@ -37,7 +37,7 @@ class SalaryController extends Controller
         $data = $request->validate([
             'karyawan_id' => 'required|exists:employees,id',
             'gaji_pokok' => 'nullable|exists:positions,gaji_pokok',
-            'bulan' => 'required|string',
+            'bulan' => 'required|string', // Format: "2025-12" atau "December 2025"
             'tunjangan' => 'nullable|numeric',
             'potongan' => 'nullable|numeric',
             'total_gaji' => 'nullable|numeric',
@@ -51,10 +51,13 @@ class SalaryController extends Controller
         // server-side compute to avoid trusting client
         $total = $gajiPokok + $tunjangan - $potongan;
 
+        // Standarisasi format bulan ke YYYY-MM
+        $bulanFormatted = $this->formatBulan($data['bulan']);
+
         $salary = Salary::create([
             'karyawan_id' => $data['karyawan_id'],
             'gaji_pokok' => $gajiPokok,
-            'bulan' => $data['bulan'],
+            'bulan' => $bulanFormatted, // Simpan dalam format YYYY-MM
             'tunjangan' => $tunjangan,
             'potongan' => $potongan,
             'total_gaji' => $total,
@@ -64,6 +67,62 @@ class SalaryController extends Controller
             return redirect()->route('salaries.index')->with('success', 'Gaji berhasil ditambahkan.');
         }
         return back()->with('error', 'Gagal menambahkan gaji.')->withInput();
+    }
+
+    /**
+     * Format bulan ke standar YYYY-MM
+     */
+    private function formatBulan($bulan)
+    {
+        // Jika sudah format YYYY-MM, return as is
+        if (preg_match('/^\d{4}-\d{2}$/', $bulan)) {
+            return $bulan;
+        }
+
+        // Jika format "November", "December", dll
+        $monthMap = [
+            'january' => '01',
+            'januari' => '01',
+            'february' => '02',
+            'februari' => '02',
+            'march' => '03',
+            'maret' => '03',
+            'april' => '04',
+            'may' => '05',
+            'mei' => '05',
+            'june' => '06',
+            'juni' => '06',
+            'july' => '07',
+            'juli' => '07',
+            'august' => '08',
+            'agustus' => '08',
+            'september' => '09',
+            'october' => '10',
+            'oktober' => '10',
+            'november' => '11',
+            'december' => '12',
+            'desember' => '12',
+        ];
+
+        $bulanLower = strtolower(trim($bulan));
+        $currentYear = now()->year;
+
+        if (isset($monthMap[$bulanLower])) {
+            return $currentYear . '-' . $monthMap[$bulanLower];
+        }
+
+        // Jika format "December 2025", "Desember 2025", dll
+        foreach ($monthMap as $monthName => $monthNumber) {
+            if (stripos($bulan, $monthName) !== false) {
+                // Extract year dari string jika ada
+                preg_match('/\d{4}/', $bulan, $matches);
+                $year = $matches[0] ?? $currentYear;
+                return $year . '-' . $monthNumber;
+            }
+        }
+
+        // Fallback: return as is
+        return $bulan;
     }
 
     /**

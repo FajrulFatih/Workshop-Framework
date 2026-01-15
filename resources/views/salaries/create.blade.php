@@ -45,16 +45,14 @@
                         </select>
                     </div>
                     <div>
-                        <label for="bulan"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bulan</label>
-                        <select name="bulan" id="bulan"
+                        <label for="bulan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Bulan Gaji
+                        </label>
+                        <input type="month" name="bulan" id="bulan"
+                            value="{{ old('bulan', now()->format('Y-m')) }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             required>
-                            <option value="">Pilih Bulan</option>
-                            @foreach (['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'] as $month)
-                                <option value="{{ $month }}">{{ $month }}</option>
-                            @endforeach
-                        </select>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Format: YYYY-MM (contoh: 2025-12)</p>
                     </div>
 
                     <div class="grid grid-cols-1 gap-3 mt-3">

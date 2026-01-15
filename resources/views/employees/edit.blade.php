@@ -1,14 +1,16 @@
 <!-- Modal toggle -->
 <button data-modal-target="edit-modal-{{ $employee->id }}" data-modal-toggle="edit-modal-{{ $employee->id }}"
-    class="text-black hover:underline dark:text-white"
-    type="button">
-    Edit
+    class="text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-300" type="button">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+    </svg>
 </button>
 
 <!-- Main modal -->
 <div id="edit-modal-{{ $employee->id }}" tabindex="-1" aria-hidden="true"
-    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-xl max-h-full">
+    class="hidden inset-0 fixed z-50 justify-center items-center w-full md:inset-0 bg-black/50">
+    <div class="relative p-4 w-full max-w-3xl max-h-full">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
             <!-- Modal header -->
@@ -34,11 +36,13 @@
                     @csrf
                     @method('PUT')
                     <div>
-                        <label for="nama_lengkap" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama
+                        <label for="nama_lengkap"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama
                             Lengkap</label>
                         <input type="text" name="nama_lengkap" id="nama_lengkap"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Nama Lengkap" value="{{ old('nama_lengkap', $employee->nama_lengkap) }}" required />
+                            placeholder="Nama Lengkap" value="{{ old('nama_lengkap', $employee->nama_lengkap) }}"
+                            required />
                     </div>
                     <div class="grid gap-6 mb-6 md:grid-cols-2">
                         <div>
@@ -54,7 +58,8 @@
                                 Telepon</label>
                             <input type="text" name="nomor_telepon" id="nomor_telepon"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                placeholder="Nomor Telepon" value="{{ old('nomor_telepon', $employee->nomor_telepon) }}" required />
+                                placeholder="Nomor Telepon" value="{{ old('nomor_telepon', $employee->nomor_telepon) }}"
+                                required />
                         </div>
                     </div>
                     <div class="grid gap-6 mb-6 md:grid-cols-2">
@@ -72,7 +77,8 @@
                                 </div>
                                 <input id="tanggal_lahir" name="tanggal_lahir" type="date"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Select date" value="{{ old('tanggal_lahir', $employee->tanggal_lahir) }}">
+                                    placeholder="Select date"
+                                    value="{{ old('tanggal_lahir', $employee->tanggal_lahir) }}">
                             </div>
                         </div>
                         <div>
@@ -87,7 +93,8 @@
                                             d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                     </svg>
                                 </div>
-                                <input id="tanggal_masuk" type="date" name="tanggal_masuk" value="{{ old('tanggal_masuk', $employee->tanggal_masuk) }}"
+                                <input id="tanggal_masuk" type="date" name="tanggal_masuk"
+                                    value="{{ old('tanggal_masuk', $employee->tanggal_masuk) }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Select date">
                             </div>
@@ -107,7 +114,9 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="">Pilih departemen</option>
                             @foreach ($departments as $department)
-                                <option value="{{ $department->id }}" {{ old('department_id', $employee->department_id) == $department->id ? 'selected' : '' }}>{{ $department->nama_department }}</option>
+                                <option value="{{ $department->id }}"
+                                    {{ old('department_id', $employee->department_id) == $department->id ? 'selected' : '' }}>
+                                    {{ $department->nama_department }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -119,7 +128,9 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="">Pilih jabatan</option>
                                 @foreach ($positions as $position)
-                                    <option value="{{ $position->id }}" {{ old('position_id', $employee->position_id) == $position->id ? 'selected' : '' }}>{{ $position->nama_jabatan }}</option>
+                                    <option value="{{ $position->id }}"
+                                        {{ old('position_id', $employee->position_id) == $position->id ? 'selected' : '' }}>
+                                        {{ $position->nama_jabatan }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -129,8 +140,11 @@
                             <select id="status" name="status"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="">Pilih status</option>
-                                <option value="aktif" {{ old('status', $employee->status) == 'aktif' ? 'selected' : '' }}>Aktif</option>
-                                <option value="nonaktif" {{ old('status', $employee->status) == 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+                                <option value="aktif"
+                                    {{ old('status', $employee->status) == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                                <option value="nonaktif"
+                                    {{ old('status', $employee->status) == 'nonaktif' ? 'selected' : '' }}>Nonaktif
+                                </option>
                             </select>
                         </div>
                     </div>

@@ -14,6 +14,13 @@ class Attendance extends Model
         'status_absensi',
     ];
 
+    // Cast untuk memastikan format yang benar
+    protected $casts = [
+        'tanggal' => 'date',
+        'waktu_masuk' => 'datetime',
+        'waktu_keluar' => 'datetime',
+    ];
+
     /**
      * Get the employee that the attendance belongs to.
      */

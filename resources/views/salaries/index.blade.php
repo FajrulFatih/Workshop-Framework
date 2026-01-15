@@ -1,4 +1,4 @@
-@extends('master')
+@extends('layouts.master')
 @section('title', 'Daftar Bayaran')
 @section('Page-title', 'Daftar Bayaran Pegawai')
 @section('content')
